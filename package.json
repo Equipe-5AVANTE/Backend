@@ -1,0 +1,27 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "dev": "nodemon"
+
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Equipe-5AVANTE/Backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Equipe-5AVANTE/Backend/issues"
+  },
+  "homepage": "https://github.com/Equipe-5AVANTE/Backend#readme",
+  "dependencies": {
+    "nodemon": "^3.1.10",
+    "prisma": "^6.15.0"
+  }
+}

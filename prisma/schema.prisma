@@ -1,0 +1,46 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum RolesType {
+  DOCTOR
+  ATTENDANT
+}
+
+model User {
+  id        String    @id @default(uuid())
+  fullName  String
+  email     String    @unique
+  password  String
+  role      RolesType
+  createdAt DateTime  @default(now()) @map("created_At")
+  updatedAt DateTime? @updatedAt @map("update_At")
+
+  doctorAppointments Appointment[] @relation("DoctorAppointments")
+}
+
+model Patient {
+  id           String        @id @default(uuid())
+  name         String
+  reason       String
+  level        Int
+  status       Int
+  registeredAt DateTime      @default(now()) @map("registered_At")
+  appointments Appointment[]
+}
+
+model Appointment {
+  id        String   @id @default(uuid())
+  patientId String
+  doctorId  String
+  startTime DateTime
+  endTime   DateTime
+  status    String
+  patient   Patient  @relation(fields: [patientId], references: [id],  onDelete: Cascade)
+  doctor    User     @relation("DoctorAppointments", fields: [doctorId], references: [id],  onDelete: Cascade)
+}
