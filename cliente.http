@@ -1,0 +1,151 @@
+@baseUrl = http://localhost:5000
+@authToken = {{loginADMIN.response.body.token}}
+@appointmentId = "aaaaswiwhq9e9eusa9a"
+@ID_DO_PACIENTE ="aasaaddsa"
+@ID_DO_MEDICO = "ssssssssaaas"
+# ==========================
+# 🚀 USERS / AUTH /  DOCTOR, ATTENDANT
+# ==========================
+
+# @name CadastrarUser
+POST {{baseUrl}}/user
+Content-Type: application/json
+
+{
+  "fullName": "Ingred On",
+  "email": "IngredOliveirad@gmail.com",
+  "password": "aaaasa",
+  "role": "DOCTOR"
+}
+
+###
+# @name loginADMIN
+POST {{baseUrl}}/login
+Content-Type: application/json
+
+{
+   "email": "IngredOliveirad@gmail.com",
+  "password": "aaaasa"
+}
+
+###
+# @name CheckToken
+GET {{baseUrl}}/check
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+# ==========================
+# 🚀 PATIENTS
+# ==========================
+
+# @name ListarTodosPacientes (Admin)
+GET {{baseUrl}}/patients
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+
+
+###
+# @name CadastrarPaciente
+POST {{baseUrl}}/patients
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "name": "Sa",
+  "reason": "Dor de cabeça",
+  "level": 3,
+  "status": 2
+}
+
+### Filtrar triagem
+GET {{baseUrl}}/patients?filter=trige
+Authorization: Bearer {{authToken}}
+
+### Filtrar para médico
+GET {{baseUrl}}/patients?filter=doctor
+Authorization: Bearer {{authToken}}
+
+### Filtrar atendidos
+GET {{baseUrl}}/patients?filter=attended
+Authorization: Bearer {{authToken}}
+
+### Atualizar level do paciente
+PATCH {{baseUrl}}/patients/id:paciente/level
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "level": 2
+}
+
+###
+
+### Atualizar status do paciente
+PATCH {{baseUrl}}/patients/123/status
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "status": 2
+}
+
+# ==========================
+# 🚀 Consultas/APPOINTMENTS
+# ==========================
+
+
+### Criar Appointment
+# @name CadastrarAppointment
+POST {{baseUrl}}/appointments
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "patientId": "{{ID_DO_PACIENTE}}",
+  "doctorId": "{{ID_DO_MEDICO}}",
+  "startTime": "2025-09-10T14:00:00.000Z",
+  "endTime": "2025-09-10T15:00:00.000Z",
+  "status": "SCHEDULED"
+}
+
+###
+
+### Listar todos Appointments
+# @name ListarAppointments
+GET {{baseUrl}}/appointments
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+###
+
+### Buscar Appointment por ID
+# @name BuscarAppointment
+GET {{baseUrl}}/appointments/{{appointmentId}}
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+###
+
+### Atualizar Appointment
+# @name AtualizarAppointment
+PATCH {{baseUrl}}/appointments/{{appointmentId}}
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "status": "FINISHED",
+  "endTime": "2025-09-10T15:30:00.000Z"
+}
+
+###
+
+### Deletar Appointment
+# @name DeletarAppointment
+DELETE {{baseUrl}}/appointments/{{appointmentId}}
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
