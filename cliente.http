@@ -1,4 +1,4 @@
-@baseUrl = http://localhost:5000
+@baseUrl = http://localhost:4000
 @authToken = {{loginADMIN.response.body.token}}
 @appointmentId = "aaaaswiwhq9e9eusa9a"
 @ID_DO_PACIENTE ="aasaaddsa"
@@ -13,9 +13,9 @@ Content-Type: application/json
 
 {
   "fullName": "Ingred On",
-  "email": "IngredOliveirad@gmail.com",
+  "email": "IngredOliveira@gmail.com",
   "password": "aaaasa",
-  "role": "DOCTOR"
+  "role": "ATTENDANT"
 }
 
 ###
@@ -24,13 +24,21 @@ POST {{baseUrl}}/login
 Content-Type: application/json
 
 {
-   "email": "IngredOliveirad@gmail.com",
+   "email": "IngredOliveira@gmail.com",
   "password": "aaaasa"
 }
 
 ###
 # @name CheckToken
 GET {{baseUrl}}/check
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+
+
+###
+
+GET {{baseUrl}}/usersAll
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
