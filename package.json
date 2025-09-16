@@ -2,7 +2,7 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-   "type": "module",
+  "type": "module",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -22,8 +22,10 @@
   "homepage": "https://github.com/Equipe-5AVANTE/Backend#readme",
   "dependencies": {
     "@prisma/client": "^6.15.0",
+    "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
     "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
     "nodemon": "^3.1.10",
     "prisma": "^6.15.0"
   }
