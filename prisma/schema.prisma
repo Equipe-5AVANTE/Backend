@@ -12,14 +12,25 @@ enum RolesType {
   ATTENDANT
 }
 
+enum Specialty {
+  DrCARDIOLOGIA
+  DrDERMATOLOGIA
+  DrGINECOLOGIA
+  DrORTOPEDIA
+  DrPEDIATRIA
+  EMFERMEIRO
+  ATTENDANT
+}
+
 model User {
-  id        String    @id @default(uuid())
+  id        String     @id @default(uuid())
   fullName  String
-  email     String    @unique
+  email     String     @unique
   password  String
+  specialty Specialty?
   role      RolesType
-  createdAt DateTime  @default(now()) @map("created_At")
-  updatedAt DateTime? @updatedAt @map("update_At")
+  createdAt DateTime   @default(now()) @map("created_At")
+  updatedAt DateTime?  @updatedAt @map("update_At")
 
   doctorAppointments Appointment[] @relation("DoctorAppointments")
 }
@@ -41,6 +52,6 @@ model Appointment {
   startTime DateTime
   endTime   DateTime
   status    String
-  patient   Patient  @relation(fields: [patientId], references: [id],  onDelete: Cascade)
-  doctor    User     @relation("DoctorAppointments", fields: [doctorId], references: [id],  onDelete: Cascade)
+  patient   Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  doctor    User     @relation("DoctorAppointments", fields: [doctorId], references: [id], onDelete: Cascade)
 }
