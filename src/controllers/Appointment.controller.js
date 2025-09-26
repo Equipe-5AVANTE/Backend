@@ -6,19 +6,42 @@ class AppointmentController {
   async create(req, res) {
     try {
       const { doctorId, patientId } = req.params; // IDs do médico e paciente da URL
-      const { startTime, endTime, status } = req.body; // Dados do agendamento do corpo da requisição
+      const { endTime, status } = req.body; // Dados do agendamento do corpo da requisição
 
-      if (!doctorId || !patientId || !startTime || !endTime || !status) {
+      if (!doctorId || !patientId || !status) {
         return res.status(400).json({ error: "Todos os campos (doctorId, patientId, startTime, endTime, status) são obrigatórios." });
       }
 
-      const appointment = await appointmentService.createAppointment(doctorId, patientId, { startTime, endTime, status });
+      const appointment = await appointmentService.createAppointment(doctorId, patientId, { endTime, status });
       return res.status(201).json(appointment);
     } catch (error) {
       console.error(error); // Para depuração
       return res.status(500).json({ error: "Ocorreu um erro ao criar o agendamento." });
     }
   }
+  async getAll(req, res) {
+    try {
+      const appointments = await appointmentService.getAllAppointments();
+      return res.status(200).json(appointments);
+    } catch (error) {
+      console.error(error); // Para depuração
+      return res.status(500).json({ error: "Ocorreu um erro ao buscar os agendamentos." });
+    } 
 }
+  async getByDoctorId(req, res) {
+    try {
+      const { doctorId } = req.params;
 
+      if (!doctorId) {
+        return res.status(400).json({ error: "O ID do médico (doctorId) é obrigatório." });
+      }
+
+      const appointments = await appointmentService.getAppointmentsByDoctorId(doctorId);
+      return res.status(200).json(appointments);
+    } catch (error) {
+      console.error(error); // Para depuração
+      return res.status(500).json({ error: "Ocorreu um erro ao buscar os agendamentos do médico." });
+    }
+  }
+}
 export { AppointmentController };

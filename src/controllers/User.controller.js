@@ -5,8 +5,8 @@ const userService = new UserService();
 export class UserController {
   static async createUser(req, res) {
     try {
-      const { fullName, email, password, role } = req.body;
-      const user = await userService.createUser(fullName, email, password, role);
+      const { fullName, email, password,  specialty, role } = req.body;
+      const user = await userService.createUser(fullName, email, password, specialty, role);
       res.status(201).json(user);
     } catch (err) {
       res.status(400).json({ mensagem: err.message });

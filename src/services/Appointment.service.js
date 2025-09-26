@@ -6,9 +6,8 @@ class AppointmentService {
   async createAppointment(doctorId, patientId, data) {
     const appointment = await prisma.appointment.create({
       data: {
-        startTime: data.startTime,
         endTime: data.endTime,
-        status: data.status, // O status é String no seu modelo, então não precisa de parseInt
+        status: data.status,
         doctor: {
           connect: { id: doctorId },
         },
@@ -19,15 +18,53 @@ class AppointmentService {
     });
     return appointment;
   }
-}
-const patient = await prisma.patient.findUnique({
-  where: { id: "864e301f-0c3c-4468-aab6-e677872a948d" }
-});
-console.log(patient);
 
-const doctor = await prisma.user.findUnique({
-  where: { id: "d8b08881-56c1-47d9-9e99-50cb99a1536a" }
-});
-console.log(doctor);
+  async getAllAppointments() {
+    const appointments = await prisma.appointment.findMany({
+      include: {
+        doctor: {
+          select: {
+            fullName: true,
+            specialty: true,
+          },
+        },
+        patient: {
+          select: {
+            name: true,
+          },
+        },
+      },
+      orderBy: {
+        startTime: 'desc',
+      },
+    });
+    return appointments;
+  }
+
+  async getAppointmentsByDoctorId(doctorId) {
+    const appointments = await prisma.appointment.findMany({
+      where: {
+        doctorId: doctorId,
+      },
+      include: {
+        doctor: {
+          select: {
+            fullName: true,
+            specialty: true,
+          },
+        },
+        patient: {
+          select: {
+            name: true,
+          },
+        },
+      },
+      orderBy: {
+        startTime: 'desc',
+      },
+    });
+    return appointments;
+  }
+}
 
 export { AppointmentService };

@@ -33,7 +33,7 @@ class PatientService {
 
     switch (filterType) {
       case 'triage':
-        whereClause = { level: 0 };
+        whereClause = { status: 0 };
         break;
       case 'doctor':
         whereClause = { level: { not: 0 }, status: { not: 2 } };
@@ -65,6 +65,16 @@ class PatientService {
     return updatedPatient;
   }
 
+   async updateStatusPatientes(id, newdstatus) {
+    const updatedPatient = await prisma.patient.update({
+    
+      where: { id: String(id)},
+      data: { status: newdstatus },
+    });
+    return updatedPatient;
+  }
+
 }
+
 
 export { PatientService };

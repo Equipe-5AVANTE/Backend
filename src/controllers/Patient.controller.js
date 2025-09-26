@@ -47,6 +47,25 @@ class PatientController {
       return res.status(500).json({ error: "Ocorreu um erro ao atualizar o nível do paciente." });
     }
   }
+    async updateStatus(req, res) {
+    try {
+      const { id } = req.params;
+      console.log(id)
+      const { status } = req.body;
+
+      if (status === undefined) {
+        return res.status(400).json({ error: "O status é obrigatório para atualização." });
+      }
+
+      const updatedPatient = await patientService.updateStatusPatientes(String(id), status);
+      return res.status(200).json(updatedPatient);
+    } catch (error) {
+      if (error.code === 'P2025') { // Prisma error code for record not found
+        return res.status(404).json({ error: "Paciente não encontrado." });
+      }
+      return res.status(500).json({ error: "Ocorreu um erro ao atualizar o status do paciente." });
+    }
+  }
 }
 
 export { PatientController };

@@ -11,5 +11,7 @@ AppointmentRoute.post(
   "/:doctorId/:patientId", 
   appointmentController.create
 );
+AppointmentRoute.get("/", appointmentController.getAll);
+AppointmentRoute.get("/doctor/:doctorId", appointmentController.getByDoctorId);
 
 export { AppointmentRoute };
