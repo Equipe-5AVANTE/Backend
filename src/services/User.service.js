@@ -6,14 +6,14 @@ const prisma = new PrismaClient();
 const SEGREDO = process.env.JWT_SECRET || "seu_segredo_aqui";
 
 class UserService {
-  async createUser(fullName, email, password, role) {
+  async createUser(fullName, email, password,  specialty, role) {
     const userExist = await prisma.user.findUnique({ where: { email } });
     if (userExist) throw new Error("Usuário já existe");
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = await prisma.user.create({
-      data: { fullName, email, password: hashedPassword, role },
+      data: { fullName, email, password: hashedPassword,  specialty,  role },
     });
 
     return user;

@@ -1,7 +1,7 @@
 @baseUrl = http://localhost:4000
 @authToken = {{loginADMIN.response.body.token}}
-@appointmentId = "aaaaswiwhq9e9eusa9a"
-@ID_DO_PACIENTE ="aasaaddsa"
+@appointmentId = e61f708d-adfb-44a2-8321-16ae28c78315
+@ID_DO_PACIENTE =864e301f-0c3c-4468-aab6-e677872a948d
 @ID_DO_MEDICO = "ssssssssaaas"
 # ==========================
 # 🚀 USERS / AUTH /  DOCTOR, ATTENDANT
@@ -12,9 +12,10 @@ POST {{baseUrl}}/user
 Content-Type: application/json
 
 {
-  "fullName": "Ingred On",
-  "email": "IngredOliveira@gmail.com",
+  "fullName": "Ingred Atendente",
+  "email": "Ingredatendente@gmail.com",
   "password": "aaaasa",
+  "specialty": "DrCARDIOLOGIA",
   "role": "ATTENDANT"
 }
 
@@ -24,7 +25,7 @@ POST {{baseUrl}}/login
 Content-Type: application/json
 
 {
-   "email": "IngredOliveira@gmail.com",
+   "email": "Ingreddoutora@gmail.com",
   "password": "aaaasa"
 }
 
@@ -67,41 +68,54 @@ Authorization: Bearer {{authToken}}
   "name": "Sa",
   "reason": "Dor de cabeça",
   "level": 3,
-  "status": 2
+  "status": 0
 }
 
 ### Filtrar triagem
-GET {{baseUrl}}/patients?filter=trige
+GET {{baseUrl}}/patients
+Authorization: Bearer {{authToken}}
+### Filtrar pacientes em triagem (level === 0)
+GET {{baseUrl}}/patients?filter=triage
 Authorization: Bearer {{authToken}}
 
-### Filtrar para médico
+### Filtrar pacientes para médico (level !== 0 e status !== 2)
 GET {{baseUrl}}/patients?filter=doctor
 Authorization: Bearer {{authToken}}
 
-### Filtrar atendidos
+### Filtrar pacientes atendidos (status === 2)
 GET {{baseUrl}}/patients?filter=attended
 Authorization: Bearer {{authToken}}
-
-### Atualizar level do paciente
-PATCH {{baseUrl}}/patients/id:paciente/level
-Authorization: Bearer {{authToken}}
+###
+PATCH {{baseUrl}}/patients/{{ID_DO_PACIENTE }}
 Content-Type: application/json
+Authorization: Bearer {{authToken}}
 
 {
-  "level": 2
+  "level": 3
+}
+
+###
+PATCH {{baseUrl}}/patients/status/864e301f-0c3c-4468-aab6-e677872a948d
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "status": 3
 }
 
 ###
 
 ### Atualizar status do paciente
-PATCH {{baseUrl}}/patients/123/status
-Authorization: Bearer {{authToken}}
+@id_do_medico = d8b08881-56c1-47d9-9e99-50cb99a1536a
+@id_do_paciente_agendamento = 864e301f-0c3c-4468-aab6-e677872a948d
+POST {{baseUrl}}/appointments/{{id_do_medico}}/{{id_do_paciente_agendamento}}
 Content-Type: application/json
+Authorization: Bearer {{authToken}}
 
 {
-  "status": 2
+  "endTime":   null,
+  "status":    "PENDING"
 }
-
 # ==========================
 # 🚀 Consultas/APPOINTMENTS
 # ==========================
@@ -133,7 +147,7 @@ Content-Type: application/json
 
 ### Buscar Appointment por ID
 # @name BuscarAppointment
-GET {{baseUrl}}/appointments/{{appointmentId}}
+GET {{baseUrl}}/appointments/doctor/02dca66f-3dbd-485d-9e91-fb337c68c4c2
 Authorization: Bearer {{authToken}}
 Content-Type: application/json
 
