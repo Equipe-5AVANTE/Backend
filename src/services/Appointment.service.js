@@ -65,6 +65,19 @@ class AppointmentService {
     });
     return appointments;
   }
+  async finishAppointment(appointmentId) {
+    const updatedAppointment = await prisma.appointment.update({
+      where: {
+        id: appointmentId,
+      },
+      data: {
+        // Gera a data e hora atual e a atribui ao endTime
+        endTime: new Date(), 
+        status: "Atendido",
+      },
+    });
+    return updatedAppointment;
+  }
 }
 
 export { AppointmentService };

@@ -1,6 +1,6 @@
 @baseUrl = http://localhost:4000
 @authToken = {{loginADMIN.response.body.token}}
-@appointmentId = e61f708d-adfb-44a2-8321-16ae28c78315
+@appointmentId = eb0d4047-7ac7-40f1-bcb6-36a4c7f34814
 @ID_DO_PACIENTE =864e301f-0c3c-4468-aab6-e677872a948d
 @ID_DO_MEDICO = "ssssssssaaas"
 # ==========================
@@ -95,12 +95,12 @@ Authorization: Bearer {{authToken}}
 }
 
 ###
-PATCH {{baseUrl}}/patients/status/864e301f-0c3c-4468-aab6-e677872a948d
+PATCH {{baseUrl}}/patients/status/b1fe111e-f29b-403f-86dd-4a5458c147fc
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {
-  "status": 3
+  "status": 2
 }
 
 ###
@@ -155,14 +155,9 @@ Content-Type: application/json
 
 ### Atualizar Appointment
 # @name AtualizarAppointment
-PATCH {{baseUrl}}/appointments/{{appointmentId}}
+PUT {{baseUrl}}/appointments/{{appointmentId}}/finish
 Authorization: Bearer {{authToken}}
 Content-Type: application/json
-
-{
-  "status": "FINISHED",
-  "endTime": "2025-09-10T15:30:00.000Z"
-}
 
 ###
 
